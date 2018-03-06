@@ -9,12 +9,17 @@
         <th>Make</th>
         <th>Model</th>
         <th>Year</th>
+        <th>Actions</th>
     </tr>
     <% for(let i = 0; i < cars.length; i++) { %>
         <tr>
             <td><%= cars[i].make %></td>
             <td><%= cars[i].model %></td>
             <td><%= cars[i].year %></td>
+            <td>
+                <a class="btn btn-info" href="/cars/edit/<%= cars[i]._id %>">Edit</a>
+                <a class="btn btn-danger" href="/cars/delete/<%= cars[i]._id %>" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
+            </td>
         </tr>
     <% } %>
 </table>
