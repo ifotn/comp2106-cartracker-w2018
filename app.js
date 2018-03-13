@@ -31,20 +31,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-// map all requests with /cars to the cars controller
-app.use('/cars', cars);
-app.use('/makes', makes);
-
 // db connection
 mongoose.connect(config.db);
 
 // passport configuration
 app.use(session({
-   secret: 'any string for salting here',
-   resave: true,
-   saveUninitialized: false
+    secret: 'any string for salting here',
+    resave: true,
+    saveUninitialized: false
 }));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // reference User model
 const User = require('./models/user');
@@ -54,6 +52,11 @@ passport.use(User.createStrategy());
 // session management for users
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// map controller paths
+app.use('/', index);
+app.use('/cars', cars);
+app.use('/makes', makes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
