@@ -13,7 +13,7 @@ const config = require('./config/globals');
 const passport = require('passport');
 const session = require('express-session');
 const localStrategy = require('passport-local').Strategy;
-const google = require('passport-google-oauth');
+const googleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var index = require('./controllers/index');
 const cars = require('./controllers/cars');
@@ -51,16 +51,26 @@ const User = require('./models/user');
 
 passport.use(User.createStrategy());
 
+// google auth strategy
+passport.use(new googleStrategy({
+   clientID: config.google.googleClientId,
+   clientSecret: config.google.googleClientSecret,
+   callbackURL: config.google.googleCallbackUrl,
+    profileFields: ['id', 'emails']
+},
+    (accessToken, refreshToken, profile, callback) => {
+        User.findOrCreate({
+            googleId: profile.id,
+            username: profile.emails[0].value
+        }, (err, user) => {
+            return callback(err, user);
+        });
+    }
+));
+
 // session management for users
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-// google auth strategy
-passport.use(new google({
-   clientId: config.google.googleClientId,
-   clientSecret: config.google.googleClientSecret,
-   callbackUrl: config.google.googleCallbackUrl
-}));
 
 // map controller paths
 app.use('/', index);

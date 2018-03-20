@@ -5,6 +5,7 @@ module.exports = {
     'google': {
         googleClientId: '448469484444-cbvm9au493sch12hu6l8otftdtmujl76.apps.googleusercontent.com',
         googleClientSecret: 'LzdJTRtImz3F54kNV-wrfZyK',
-        googleCallbackUrl: 'http://localhost:3000/google/callback'
+        //googleCallbackUrl: 'http://localhost:3000/google/callback'
+        googleCallbackUrl: 'https://comp2106-cartracker.herokuapp.com/google/callback'
     }
 };
