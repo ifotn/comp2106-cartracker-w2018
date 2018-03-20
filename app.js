@@ -8,10 +8,12 @@ var bodyParser = require('body-parser');
 // references we added
 const mongoose = require('mongoose');
 const config = require('./config/globals');
+
 // auth packages
 const passport = require('passport');
 const session = require('express-session');
 const localStrategy = require('passport-local').Strategy;
+const google = require('passport-google-oauth');
 
 var index = require('./controllers/index');
 const cars = require('./controllers/cars');
@@ -52,6 +54,13 @@ passport.use(User.createStrategy());
 // session management for users
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+// google auth strategy
+passport.use(new google({
+   clientId: config.google.googleClientId,
+   clientSecret: config.google.googleClientSecret,
+   callbackUrl: config.google.googleCallbackUrl
+}));
 
 // map controller paths
 app.use('/', index);
