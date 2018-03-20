@@ -13,7 +13,8 @@ router.get('/', (req, res, next) => {
         else {
             res.render('makes/index', {
                 title: 'Manufacturer List',
-                makes: makes
+                makes: makes,
+                user: req.user
             });
         }
     });
@@ -22,7 +23,8 @@ router.get('/', (req, res, next) => {
 // GET: /makes/add
 router.get('/add', (req, res, next) => {
     res.render('makes/add', {
-        title: 'Add a New Manufacturer'
+        title: 'Add a New Manufacturer',
+        user: req.user
     });
 });
 
@@ -72,7 +74,8 @@ router.get('/edit/:_id', (req, res, next) => {
         else {
             res.render('makes/edit', {
                 title: 'Manufacturer Details',
-                make: make
+                make: make,
+                user: req.user
             });
         }
     });

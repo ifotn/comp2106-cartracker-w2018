@@ -2,6 +2,13 @@
 
 <h1>Login</h1>
 
+<% if (messages.length > 0) { %>
+    <div class="alert alert-danger"><%= messages %></div>
+<% }
+else { %>
+    <div class="alert alert-info">Please enter your credentials</div>
+<% } %>
+
 <form method="post">
     <fieldset class="form-group">
         <label for="username" class="col-sm-2 control-label">Username: *</label>
